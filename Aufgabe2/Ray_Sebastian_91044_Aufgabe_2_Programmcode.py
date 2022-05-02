@@ -24,9 +24,8 @@ class ANDNODE:
     def availability(self):
         ui = 1
         for element in self.nodes:
-              ui = ui * (element.availability())  #ui = Non-Availability (Multiply the individual non-availabilities)
-        ui = 1 - ui
-        return ui
+              ui = ui * (1 - element.availability())  #ui = Non-Availability (Multiply the individual non-availabilities)
+        return 1 - ui
     def __repr__(self):
         return self.name + "(&)"
 
@@ -42,8 +41,7 @@ class ORNODE:
     def availability(self):
         vi = 1
         for element in self.nodes:
-            vi = 1 - (vi * element.availability())    #vi = Availability (Multiply the individual availabilities)
-        vi = 1 -vi
+            vi = vi * element.availability()    #vi = Availability (Multiply the individual availabilities)
         return vi
     def __repr__(self):
         return self.name + "(>=1)"
@@ -74,9 +72,9 @@ class EVENT:  # Standardeingang
         self.la = la
         self.mu = mu
         self.avail = 0
-    #def add(self, node):                           Not necessary. Because afte an Event, it's over
+    #def add(self, node):                               Not necessary. Because afte an Event, it's over
     def availability(self):
-        self.avail = 1 - (self.la / (self.la+self.mu))
+        self.avail = 1 - (self.la / (self.la+self.mu))  #1 - Unavailibility = Availability
         return self.avail
     def __repr__(self):
         return self.name
@@ -106,6 +104,17 @@ A.add(E2)
 C.add(E1)
 B.add(E3)
 B.add(E4)
+
+#Aus Uebung 7.5
+# TOP = ORNODE('TOP')
+# A = EVENT('A',1/365,1/365)
+# B = ANDNODE('B')
+# C = EVENT('C',1/7300,2/365)
+# D = EVENT('D',1/7300,1/365)
+# TOP.add(A)
+# TOP.add(B)
+# B.add(C)
+# B.add(D)
 
 
 graph = gv.Graph(format='png', graph_attr={'splines':'ortho'})
