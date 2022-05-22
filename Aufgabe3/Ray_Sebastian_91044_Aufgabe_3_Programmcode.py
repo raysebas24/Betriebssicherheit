@@ -50,7 +50,7 @@ class MARKOV:
             P[edges.source.num][edges.destination.num]=edges.rate   #Matrix Position [source][destination]=Rate
 
         i=0
-        while i < hours:
+        for i in range(hours):
             p0=np.matmul(p0,P)
             i+=1
         return p0
@@ -67,6 +67,7 @@ class MARKOV:
 
 #Create Graph
 graph = gv.Graph(format='png')
+
 
 # #Parameters
 error2=1/(2*365*6)      #Failure of 2 engines
@@ -99,12 +100,14 @@ T33 = TRANSITION(S3,S3,"S3,S3",1-serv12)
 T44 = TRANSITION(S4,S4,"S4,S4",1-repair)
 T55 = TRANSITION(S5,S5,"S5,S5",1-serv3w)
 
+#Add STATE
 M.state(S1)
 M.state(S2)
 M.state(S3)
 M.state(S4)
 M.state(S5)
 
+#Add TRANSITION
 M.transition(T12)
 M.transition(T13)
 M.transition(T24)
@@ -127,6 +130,6 @@ M.transition(T55)
 # M.transition(T12)
 
 #Displays the graph 
-#M.draw()
+M.draw()
 result = M.probability(87600)
 print("Probability over 10 Years = \n", result)
